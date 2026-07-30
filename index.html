@@ -1,0 +1,925 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Terra &amp; Leaf — Plants &amp; Planters</title>
+
+<!-- Google Fonts: a serif display face + a clean sans body face -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+  /* ===================================================================
+     1. DESIGN TOKENS
+     Beginner tip: keeping all colors/fonts as CSS variables at the top
+     means you only change a value in ONE place to re-theme the whole
+     site. Try changing --accent below and refresh the page!
+  =================================================================== */
+  :root{
+    --forest: #1F3D2B;      /* primary dark green */
+    --forest-deep: #14281c; /* darker shade, used for hover states */
+    --cream: #FAF7F0;       /* light background */
+    --card: #FFFFFF;
+    --mustard: #D9A441;     /* accent / call-to-action color */
+    --mustard-deep: #b9852a;
+    --rust: #B5541A;        /* used sparingly for "sale" tags */
+    --ink: #22301F;         /* body text */
+    --ink-soft: #5b6a56;    /* muted text */
+    --line: #e4e0d4;        /* hairline borders */
+
+    --font-display: "Fraunces", serif;
+    --font-body: "Inter", sans-serif;
+
+    --radius: 14px;
+    --shadow: 0 10px 30px rgba(31,61,43,0.08);
+  }
+
+  *{ box-sizing: border-box; }
+  html{ scroll-behavior: smooth; }
+  body{
+    margin:0;
+    font-family: var(--font-body);
+    background: var(--cream);
+    color: var(--ink);
+    line-height:1.5;
+  }
+  img,svg{ display:block; max-width:100%; }
+  button{ font-family: inherit; cursor:pointer; }
+  a{ color:inherit; }
+
+  .wrap{
+    max-width:1180px;
+    margin:0 auto;
+    padding:0 24px;
+  }
+
+  /* ===================================================================
+     2. HEADER
+  =================================================================== */
+  header{
+    position: sticky;
+    top:0;
+    z-index:50;
+    background: rgba(250,247,240,0.92);
+    backdrop-filter: blur(6px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:18px 0;
+  }
+  .logo{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-family: var(--font-display);
+    font-weight:700;
+    font-size:1.4rem;
+    color: var(--forest);
+    letter-spacing:-0.01em;
+  }
+  .logo svg{ width:30px; height:30px; }
+
+  .nav-links{
+    display:flex;
+    gap:28px;
+    list-style:none;
+    margin:0; padding:0;
+    font-weight:500;
+    font-size:0.95rem;
+  }
+  .nav-links a{ text-decoration:none; color:var(--ink-soft); transition:color .15s; }
+  .nav-links a:hover{ color:var(--forest); }
+
+  .cart-btn{
+    position:relative;
+    display:flex;
+    align-items:center;
+    gap:8px;
+    background: var(--forest);
+    color:#fff;
+    border:none;
+    border-radius: 999px;
+    padding:10px 18px;
+    font-weight:600;
+    font-size:0.9rem;
+    transition: background .15s, transform .15s;
+  }
+  .cart-btn:hover{ background: var(--forest-deep); transform: translateY(-1px); }
+  .cart-count{
+    background: var(--mustard);
+    color: var(--forest-deep);
+    border-radius:999px;
+    min-width:20px;
+    height:20px;
+    padding:0 5px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:0.72rem;
+    font-weight:700;
+  }
+
+  /* ===================================================================
+     3. HERO
+  =================================================================== */
+  .hero{
+    padding:72px 0 56px;
+    display:grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap:48px;
+    align-items:center;
+  }
+  .eyebrow{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    font-size:0.78rem;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color: var(--mustard-deep);
+    font-weight:700;
+    margin-bottom:18px;
+  }
+  .eyebrow::before{
+    content:"";
+    width:22px; height:1px;
+    background: var(--mustard-deep);
+  }
+  .hero h1{
+    font-family: var(--font-display);
+    font-size: clamp(2.4rem, 5vw, 3.6rem);
+    line-height:1.05;
+    margin:0 0 20px;
+    color: var(--forest);
+    font-weight:600;
+    letter-spacing:-0.01em;
+  }
+  .hero h1 em{
+    font-style:italic;
+    color: var(--mustard-deep);
+  }
+  .hero p{
+    color: var(--ink-soft);
+    font-size:1.05rem;
+    max-width:46ch;
+    margin-bottom:28px;
+  }
+  .hero-ctas{ display:flex; gap:14px; }
+  .btn-primary{
+    background: var(--mustard);
+    color: var(--forest-deep);
+    border:none;
+    padding:14px 26px;
+    border-radius:999px;
+    font-weight:700;
+    font-size:0.95rem;
+    transition: background .15s, transform .15s;
+  }
+  .btn-primary:hover{ background: var(--mustard-deep); color:#fff; transform: translateY(-1px); }
+  .btn-secondary{
+    background:transparent;
+    border:1px solid var(--forest);
+    color: var(--forest);
+    padding:14px 22px;
+    border-radius:999px;
+    font-weight:600;
+    font-size:0.95rem;
+  }
+  .btn-secondary:hover{ background: var(--forest); color:#fff; }
+
+  /* Signature hero graphic: a growing leaf sprig built from simple SVG shapes */
+  .hero-art{
+    position:relative;
+    aspect-ratio: 1/1;
+    background: linear-gradient(160deg, #eef2e6, #e3ecdb);
+    border-radius: 28px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    overflow:hidden;
+  }
+  .hero-art::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    background: radial-gradient(circle at 70% 20%, rgba(217,164,65,0.25), transparent 55%);
+  }
+  .hero-art svg{ width:62%; height:62%; position:relative; }
+
+  /* ===================================================================
+     4. CATEGORY FILTER BAR
+  =================================================================== */
+  .filter-bar{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    flex-wrap:wrap;
+    gap:16px;
+    padding: 8px 0 32px;
+    border-bottom:1px solid var(--line);
+    margin-bottom:40px;
+  }
+  .filter-bar h2{
+    font-family: var(--font-display);
+    font-size:1.6rem;
+    color: var(--forest);
+    margin:0;
+  }
+  .filters{ display:flex; gap:10px; flex-wrap:wrap; }
+  .filter-chip{
+    border:1px solid var(--line);
+    background: var(--card);
+    padding:8px 16px;
+    border-radius:999px;
+    font-size:0.85rem;
+    font-weight:600;
+    color: var(--ink-soft);
+    transition: all .15s;
+  }
+  .filter-chip:hover{ border-color: var(--forest); color: var(--forest); }
+  .filter-chip.active{
+    background: var(--forest);
+    border-color: var(--forest);
+    color:#fff;
+  }
+
+  /* ===================================================================
+     5. PRODUCT GRID
+  =================================================================== */
+  .grid{
+    display:grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap:22px;
+    padding-bottom:80px;
+  }
+  .card{
+    background: var(--card);
+    border-radius: var(--radius);
+    overflow:hidden;
+    box-shadow: var(--shadow);
+    display:flex;
+    flex-direction:column;
+    transition: transform .18s ease;
+  }
+  .card:hover{ transform: translateY(-4px); }
+  .card-media{
+    aspect-ratio: 1/1;
+    background: var(--icon-bg, #eef2e6);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    position:relative;
+  }
+  .card-media svg{ width:46%; height:46%; }
+  .tag{
+    position:absolute;
+    top:12px; left:12px;
+    background: var(--rust);
+    color:#fff;
+    font-size:0.68rem;
+    font-weight:700;
+    letter-spacing:0.04em;
+    text-transform:uppercase;
+    padding:4px 9px;
+    border-radius:999px;
+  }
+  .card-body{
+    padding:16px 18px 18px;
+    display:flex;
+    flex-direction:column;
+    gap:6px;
+    flex:1;
+  }
+  .card-cat{
+    font-size:0.72rem;
+    text-transform:uppercase;
+    letter-spacing:0.08em;
+    color: var(--ink-soft);
+    font-weight:600;
+  }
+  .card-name{
+    font-family: var(--font-display);
+    font-size:1.12rem;
+    font-weight:600;
+    color: var(--ink);
+    margin:0;
+  }
+  .card-footer{
+    margin-top:auto;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding-top:10px;
+  }
+  .price{ font-weight:700; color: var(--forest); font-size:1.02rem; }
+  .price .was{
+    color: var(--ink-soft);
+    text-decoration: line-through;
+    font-weight:500;
+    font-size:0.85rem;
+    margin-right:6px;
+  }
+  .add-btn{
+    background: var(--forest);
+    color:#fff;
+    border:none;
+    width:38px; height:38px;
+    border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    transition: background .15s, transform .2s;
+  }
+  .add-btn svg{ width:18px; height:18px; }
+  .add-btn:hover{ background: var(--mustard-deep); }
+  .add-btn.bump{ animation: bump .35s ease; }
+  @keyframes bump{
+    0%{ transform: scale(1); }
+    40%{ transform: scale(1.25) rotate(8deg); }
+    100%{ transform: scale(1); }
+  }
+
+  /* ===================================================================
+     6. CART DRAWER
+  =================================================================== */
+  .overlay{
+    position:fixed; inset:0;
+    background: rgba(20,40,28,0.35);
+    opacity:0; pointer-events:none;
+    transition: opacity .25s;
+    z-index:90;
+  }
+  .overlay.open{ opacity:1; pointer-events:auto; }
+
+  .drawer{
+    position:fixed;
+    top:0; right:0;
+    height:100%;
+    width:min(420px, 92vw);
+    background: var(--cream);
+    box-shadow: -14px 0 40px rgba(0,0,0,0.15);
+    transform: translateX(100%);
+    transition: transform .3s ease;
+    z-index:95;
+    display:flex;
+    flex-direction:column;
+  }
+  .drawer.open{ transform: translateX(0); }
+  .drawer-head{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:22px 24px;
+    border-bottom:1px solid var(--line);
+  }
+  .drawer-head h3{
+    font-family: var(--font-display);
+    margin:0;
+    font-size:1.3rem;
+    color: var(--forest);
+  }
+  .drawer-close{
+    background:none; border:none;
+    font-size:1.3rem;
+    color: var(--ink-soft);
+    line-height:1;
+    padding:4px;
+  }
+  .drawer-items{
+    flex:1;
+    overflow-y:auto;
+    padding:16px 24px;
+    display:flex;
+    flex-direction:column;
+    gap:16px;
+  }
+  .empty-cart{
+    text-align:center;
+    color: var(--ink-soft);
+    padding:60px 20px;
+  }
+  .empty-cart svg{ width:64px; height:64px; margin:0 auto 16px; opacity:0.5; }
+
+  .cart-item{
+    display:flex;
+    gap:14px;
+    align-items:center;
+    padding-bottom:16px;
+    border-bottom:1px dashed var(--line);
+  }
+  .cart-item-media{
+    width:58px; height:58px;
+    border-radius:10px;
+    background: var(--icon-bg, #eef2e6);
+    display:flex; align-items:center; justify-content:center;
+    flex-shrink:0;
+  }
+  .cart-item-media svg{ width:60%; height:60%; }
+  .cart-item-info{ flex:1; min-width:0; }
+  .cart-item-info h4{
+    margin:0 0 4px;
+    font-size:0.95rem;
+    font-weight:600;
+  }
+  .cart-item-price{ font-size:0.85rem; color: var(--ink-soft); }
+  .qty-controls{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    margin-top:8px;
+  }
+  .qty-controls button{
+    width:24px; height:24px;
+    border-radius:6px;
+    border:1px solid var(--line);
+    background:#fff;
+    font-weight:700;
+    color: var(--forest);
+    display:flex; align-items:center; justify-content:center;
+  }
+  .qty-controls span{ font-weight:600; min-width:16px; text-align:center; }
+  .remove-btn{
+    background:none; border:none;
+    color: var(--rust);
+    font-size:0.78rem;
+    font-weight:600;
+    text-decoration:underline;
+    padding:0;
+  }
+
+  .drawer-foot{
+    padding:20px 24px 26px;
+    border-top:1px solid var(--line);
+  }
+  .summary-row{
+    display:flex;
+    justify-content:space-between;
+    font-size:0.9rem;
+    color: var(--ink-soft);
+    margin-bottom:6px;
+  }
+  .summary-row.total{
+    font-weight:700;
+    font-size:1.1rem;
+    color: var(--forest);
+    margin-top:10px;
+  }
+  .checkout-btn{
+    width:100%;
+    background: var(--forest);
+    color:#fff;
+    border:none;
+    padding:15px;
+    border-radius:12px;
+    font-weight:700;
+    font-size:1rem;
+    margin-top:14px;
+    transition: background .15s;
+  }
+  .checkout-btn:hover{ background: var(--forest-deep); }
+  .checkout-btn:disabled{ opacity:0.5; cursor:not-allowed; }
+
+  /* ===================================================================
+     7. TOAST (small confirmation message)
+  =================================================================== */
+  .toast{
+    position:fixed;
+    bottom:26px;
+    left:50%;
+    transform: translateX(-50%) translateY(20px);
+    background: var(--forest);
+    color:#fff;
+    padding:13px 22px;
+    border-radius:999px;
+    font-size:0.9rem;
+    font-weight:600;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.2);
+    opacity:0;
+    pointer-events:none;
+    transition: all .25s ease;
+    z-index:120;
+    display:flex; align-items:center; gap:8px;
+  }
+  .toast.show{
+    opacity:1;
+    transform: translateX(-50%) translateY(0);
+  }
+
+  footer{
+    border-top:1px solid var(--line);
+    padding:36px 0;
+    text-align:center;
+    color: var(--ink-soft);
+    font-size:0.85rem;
+  }
+
+  /* ===================================================================
+     8. RESPONSIVE
+  =================================================================== */
+  @media (max-width: 980px){
+    .grid{ grid-template-columns: repeat(2, 1fr); }
+    .hero{ grid-template-columns: 1fr; padding-top:40px; }
+    .hero-art{ max-width:340px; margin:0 auto; }
+  }
+  @media (max-width: 560px){
+    .nav-links{ display:none; }
+    .grid{ grid-template-columns: 1fr 1fr; gap:14px; }
+    .hero h1{ font-size:2.1rem; }
+  }
+
+  /* Respect reduced-motion preference */
+  @media (prefers-reduced-motion: reduce){
+    *{ transition:none !important; animation:none !important; scroll-behavior:auto !important; }
+  }
+
+  /* Keyboard focus visibility */
+  a:focus-visible, button:focus-visible{
+    outline: 2px solid var(--mustard-deep);
+    outline-offset: 2px;
+  }
+</style>
+</head>
+<body>
+
+  <!-- =================================================================
+       HEADER
+  ================================================================== -->
+  <header>
+    <div class="wrap nav">
+      <div class="logo">
+        <!-- simple leaf mark used as the site logo -->
+        <svg viewBox="0 0 24 24" fill="none"><path d="M4 20C4 10 10 4 20 4C20 14 14 20 4 20Z" fill="#1F3D2B"/><path d="M4 20C8 16 12 12 18 6" stroke="#D9A441" stroke-width="1.4" stroke-linecap="round"/></svg>
+        Terra &amp; Leaf
+      </div>
+      <ul class="nav-links">
+        <li><a href="#shop">Shop</a></li>
+        <li><a href="#" onclick="return false;">Care Guides</a></li>
+        <li><a href="#" onclick="return false;">About</a></li>
+      </ul>
+      <button class="cart-btn" id="openCartBtn" aria-label="Open cart">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle>
+          <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+        </svg>
+        Cart
+        <span class="cart-count" id="cartCount">0</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- =================================================================
+       HERO
+  ================================================================== -->
+  <section class="wrap hero">
+    <div>
+      <div class="eyebrow">Beginner-friendly demo shop</div>
+      <h1>Bring a little <em>green</em><br>into every room.</h1>
+      <p>Hand-picked houseplants and simple planters, delivered with care. Browse the shop below — everything here is a working demo cart, built to show how e-commerce pages come together.</p>
+      <div class="hero-ctas">
+        <a href="#shop" class="btn-primary">Shop plants</a>
+        <a href="#" class="btn-secondary" onclick="return false;">Care guides</a>
+      </div>
+    </div>
+    <div class="hero-art">
+      <!-- signature illustration: a potted plant, built from plain shapes -->
+      <svg viewBox="0 0 200 200" fill="none">
+        <path d="M70 190 L80 130 L120 130 L130 190 Z" fill="#B5541A"/>
+        <rect x="66" y="184" width="68" height="10" rx="3" fill="#8f4315"/>
+        <path d="M100 130 C60 130 55 80 70 55 C85 75 90 100 100 130Z" fill="#1F3D2B"/>
+        <path d="M100 130 C140 130 145 75 128 48 C112 70 105 98 100 130Z" fill="#274d34"/>
+        <path d="M100 130 C90 95 92 60 100 30 C108 60 110 95 100 130Z" fill="#3a6b47"/>
+        <path d="M100 30 C102 45 102 55 100 65" stroke="#D9A441" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+    </div>
+  </section>
+
+  <!-- =================================================================
+       SHOP SECTION
+  ================================================================== -->
+  <main class="wrap" id="shop">
+    <div class="filter-bar">
+      <h2>The Shop</h2>
+      <div class="filters" id="filterChips">
+        <!-- filled in by JavaScript -->
+      </div>
+    </div>
+
+    <div class="grid" id="productGrid">
+      <!-- product cards are rendered here by JavaScript -->
+    </div>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      Terra &amp; Leaf — a demo store built for learning. No real payments are processed here.
+    </div>
+  </footer>
+
+  <!-- =================================================================
+       CART DRAWER + OVERLAY
+  ================================================================== -->
+  <div class="overlay" id="overlay"></div>
+  <aside class="drawer" id="cartDrawer" aria-label="Shopping cart">
+    <div class="drawer-head">
+      <h3>Your Cart</h3>
+      <button class="drawer-close" id="closeCartBtn" aria-label="Close cart">✕</button>
+    </div>
+    <div class="drawer-items" id="drawerItems">
+      <!-- filled in by JavaScript -->
+    </div>
+    <div class="drawer-foot">
+      <div class="summary-row"><span>Subtotal</span><span id="subtotal">$0.00</span></div>
+      <div class="summary-row"><span>Shipping</span><span id="shippingRow">$0.00</span></div>
+      <div class="summary-row total"><span>Total</span><span id="total">$0.00</span></div>
+      <button class="checkout-btn" id="checkoutBtn" disabled>Checkout</button>
+    </div>
+  </aside>
+
+  <div class="toast" id="toast"></div>
+
+<script>
+/* =====================================================================
+   BEGINNER NOTES
+   This whole store runs on plain JavaScript — no frameworks, no server.
+   The "database" is just the PRODUCTS array below, and the cart is just
+   a JavaScript array kept in memory (it resets on page refresh — that's
+   normal for a learning demo; a real store would save it to a server
+   or to browser storage).
+
+   The 4 building blocks you'll see below are:
+   1. DATA        — the list of products
+   2. STATE       — the cart array + which filter is active
+   3. RENDER      — functions that turn state into HTML
+   4. EVENTS      — code that runs when the user clicks something
+===================================================================== */
+
+/* ---------------------------------------------------------------------
+   1. DATA — every product in the shop.
+   Each product has an id, name, price, category, an optional "was" price
+   (for showing a discount), and an icon (a small inline SVG + background
+   color) so the demo doesn't depend on any external images.
+--------------------------------------------------------------------- */
+const PRODUCTS = [
+  {
+    id: "p1", name: "Fiddle Leaf Fig", category: "Indoor Plants",
+    price: 42, iconBg: "#e7efe0",
+    icon: `<path d="M32 58C22 58 16 48 18 36C20 40 24 44 32 46C34 30 30 16 32 6C40 16 44 32 40 46C46 44 50 40 54 34C54 46 46 58 32 58Z" fill="#1F3D2B"/>`
+  },
+  {
+    id: "p2", name: "Snake Plant", category: "Indoor Plants",
+    price: 24, iconBg: "#e7efe0",
+    icon: `<path d="M20 58L18 12C18 8 24 8 24 12L26 58Z" fill="#274d34"/><path d="M30 58L28 6C28 2 36 2 36 6L34 58Z" fill="#1F3D2B"/><path d="M44 58L42 14C42 10 48 10 48 14L46 58Z" fill="#274d34"/>`
+  },
+  {
+    id: "p3", name: "Small Terracotta Planter", category: "Accessories",
+    price: 16, iconBg: "#f3e6d8",
+    icon: `<path d="M18 22H46L42 54C42 57 39 58 37 58H27C25 58 22 57 22 54Z" fill="#B5541A"/><rect x="16" y="16" width="32" height="8" rx="2" fill="#8f4315"/>`
+  },
+  {
+    id: "p4", name: "Monstera Deliciosa", category: "Indoor Plants",
+    price: 38, was: 45, iconBg: "#e7efe0",
+    icon: `<path d="M32 56C18 50 14 34 22 22C24 30 28 34 32 36C32 26 34 16 40 10C42 22 40 32 36 38C42 36 48 30 50 24C52 36 46 50 32 56Z" fill="#1F3D2B"/><circle cx="30" cy="24" r="2.4" fill="#e7efe0"/><circle cx="38" cy="30" r="2" fill="#e7efe0"/>`
+  },
+  {
+    id: "p5", name: "Brass Watering Can", category: "Accessories",
+    price: 22, iconBg: "#f3ecd8",
+    icon: `<rect x="16" y="30" width="26" height="20" rx="4" fill="#D9A441"/><path d="M42 34L54 26" stroke="#b9852a" stroke-width="5" stroke-linecap="round"/><path d="M22 30V22C22 19 25 18 27 20L31 24" stroke="#b9852a" stroke-width="4" fill="none" stroke-linecap="round"/>`
+  },
+  {
+    id: "p6", name: "Succulent Trio", category: "Indoor Plants",
+    price: 18, iconBg: "#e7efe0",
+    icon: `<circle cx="18" cy="46" r="10" fill="#3a6b47"/><circle cx="34" cy="50" r="8" fill="#274d34"/><circle cx="47" cy="42" r="9" fill="#1F3D2B"/>`
+  },
+  {
+    id: "p7", name: "Large Ceramic Planter", category: "Accessories",
+    price: 34, iconBg: "#e6e9e4",
+    icon: `<path d="M14 22H50L44 56C44 58 41 60 38 60H26C23 60 20 58 20 56Z" fill="#5b6a56"/><rect x="12" y="14" width="40" height="9" rx="3" fill="#455040"/>`
+  },
+  {
+    id: "p8", name: "Organic Plant Food", category: "Accessories",
+    price: 12, was: 15, iconBg: "#f3ecd8",
+    icon: `<rect x="22" y="14" width="20" height="42" rx="4" fill="#D9A441"/><rect x="22" y="14" width="20" height="14" rx="4" fill="#b9852a"/>`
+  }
+];
+
+const CATEGORIES = ["All", "Indoor Plants", "Accessories"];
+const SHIPPING_FLAT_RATE = 6;   // flat shipping fee applied whenever the cart isn't empty
+const FREE_SHIPPING_OVER = 60;  // free shipping once subtotal passes this amount
+
+/* ---------------------------------------------------------------------
+   2. STATE — things that can change while the page is open.
+--------------------------------------------------------------------- */
+let cart = [];               // array of { id, qty }
+let activeCategory = "All";  // which filter chip is selected
+
+/* ---------------------------------------------------------------------
+   Small helpers
+--------------------------------------------------------------------- */
+function formatPrice(n){
+  return "$" + n.toFixed(2);
+}
+function findProduct(id){
+  return PRODUCTS.find(p => p.id === id);
+}
+function cartTotalItems(){
+  return cart.reduce((sum, line) => sum + line.qty, 0);
+}
+function cartSubtotal(){
+  return cart.reduce((sum, line) => sum + findProduct(line.id).price * line.qty, 0);
+}
+
+/* ---------------------------------------------------------------------
+   3. RENDER — these functions read the current state and update the
+   page. We call the relevant one after every state change instead of
+   hand-editing the DOM everywhere, which keeps the UI in sync.
+--------------------------------------------------------------------- */
+
+// Render the category filter chips across the top of the shop section
+function renderFilters(){
+  const el = document.getElementById("filterChips");
+  el.innerHTML = CATEGORIES.map(cat => `
+    <button class="filter-chip ${cat === activeCategory ? "active" : ""}" data-cat="${cat}">
+      ${cat}
+    </button>
+  `).join("");
+
+  // wire up clicks for the chips we just created
+  el.querySelectorAll(".filter-chip").forEach(btn => {
+    btn.addEventListener("click", () => {
+      activeCategory = btn.dataset.cat;
+      renderFilters();
+      renderProducts();
+    });
+  });
+}
+
+// Render the grid of product cards, respecting the active category filter
+function renderProducts(){
+  const grid = document.getElementById("productGrid");
+  const list = activeCategory === "All"
+    ? PRODUCTS
+    : PRODUCTS.filter(p => p.category === activeCategory);
+
+  grid.innerHTML = list.map(p => `
+    <div class="card">
+      <div class="card-media" style="--icon-bg:${p.iconBg}">
+        ${p.was ? `<span class="tag">Sale</span>` : ""}
+        <svg viewBox="0 0 64 64">${p.icon}</svg>
+      </div>
+      <div class="card-body">
+        <span class="card-cat">${p.category}</span>
+        <h3 class="card-name">${p.name}</h3>
+        <div class="card-footer">
+          <span class="price">
+            ${p.was ? `<span class="was">${formatPrice(p.was)}</span>` : ""}
+            ${formatPrice(p.price)}
+          </span>
+          <button class="add-btn" data-id="${p.id}" aria-label="Add ${p.name} to cart">
+            <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  `).join("");
+
+  // wire up "add to cart" clicks for the cards we just created
+  grid.querySelectorAll(".add-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      addToCart(btn.dataset.id);
+      btn.classList.remove("bump");
+      void btn.offsetWidth; // restart the animation if clicked repeatedly
+      btn.classList.add("bump");
+    });
+  });
+}
+
+// Render the contents of the cart drawer (called after every cart change)
+function renderCart(){
+  const itemsEl = document.getElementById("drawerItems");
+  const countEl = document.getElementById("cartCount");
+  const subtotalEl = document.getElementById("subtotal");
+  const shippingEl = document.getElementById("shippingRow");
+  const totalEl = document.getElementById("total");
+  const checkoutBtn = document.getElementById("checkoutBtn");
+
+  countEl.textContent = cartTotalItems();
+
+  if (cart.length === 0){
+    itemsEl.innerHTML = `
+      <div class="empty-cart">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+        Your cart is empty.<br>Add a plant to get started!
+      </div>`;
+    checkoutBtn.disabled = true;
+  } else {
+    itemsEl.innerHTML = cart.map(line => {
+      const p = findProduct(line.id);
+      return `
+        <div class="cart-item">
+          <div class="cart-item-media" style="--icon-bg:${p.iconBg}">
+            <svg viewBox="0 0 64 64">${p.icon}</svg>
+          </div>
+          <div class="cart-item-info">
+            <h4>${p.name}</h4>
+            <div class="cart-item-price">${formatPrice(p.price)} each</div>
+            <div class="qty-controls">
+              <button data-id="${p.id}" data-action="dec" aria-label="Decrease quantity">−</button>
+              <span>${line.qty}</span>
+              <button data-id="${p.id}" data-action="inc" aria-label="Increase quantity">+</button>
+              <button class="remove-btn" data-id="${p.id}" data-action="remove">Remove</button>
+            </div>
+          </div>
+        </div>`;
+    }).join("");
+    checkoutBtn.disabled = false;
+  }
+
+  const subtotal = cartSubtotal();
+  const shipping = cart.length === 0 ? 0 : (subtotal >= FREE_SHIPPING_OVER ? 0 : SHIPPING_FLAT_RATE);
+
+  subtotalEl.textContent = formatPrice(subtotal);
+  shippingEl.textContent = shipping === 0 && cart.length > 0 ? "Free" : formatPrice(shipping);
+  totalEl.textContent = formatPrice(subtotal + shipping);
+
+  // wire up quantity/remove buttons for the rows we just created
+  itemsEl.querySelectorAll("[data-action]").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const { id, action } = btn.dataset;
+      if (action === "inc") changeQty(id, 1);
+      if (action === "dec") changeQty(id, -1);
+      if (action === "remove") removeFromCart(id);
+    });
+  });
+}
+
+/* ---------------------------------------------------------------------
+   4. EVENTS / ACTIONS — functions that change state, then re-render
+--------------------------------------------------------------------- */
+function addToCart(id){
+  const line = cart.find(l => l.id === id);
+  if (line){
+    line.qty += 1;
+  } else {
+    cart.push({ id, qty: 1 });
+  }
+  renderCart();
+  showToast(`${findProduct(id).name} added to cart`);
+  openCart();
+}
+
+function changeQty(id, delta){
+  const line = cart.find(l => l.id === id);
+  if (!line) return;
+  line.qty += delta;
+  if (line.qty <= 0){
+    removeFromCart(id);
+  } else {
+    renderCart();
+  }
+}
+
+function removeFromCart(id){
+  cart = cart.filter(l => l.id !== id);
+  renderCart();
+}
+
+function openCart(){
+  document.getElementById("cartDrawer").classList.add("open");
+  document.getElementById("overlay").classList.add("open");
+}
+function closeCart(){
+  document.getElementById("cartDrawer").classList.remove("open");
+  document.getElementById("overlay").classList.remove("open");
+}
+
+let toastTimer;
+function showToast(message){
+  const toast = document.getElementById("toast");
+  toast.textContent = message;
+  toast.classList.add("show");
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => toast.classList.remove("show"), 2200);
+}
+
+/* ---------------------------------------------------------------------
+   Wire up the static buttons (cart open/close/checkout) once the page
+   has loaded, then do the first render.
+--------------------------------------------------------------------- */
+document.getElementById("openCartBtn").addEventListener("click", openCart);
+document.getElementById("closeCartBtn").addEventListener("click", closeCart);
+document.getElementById("overlay").addEventListener("click", closeCart);
+document.getElementById("checkoutBtn").addEventListener("click", () => {
+  showToast("This is a demo — no real order was placed 🌱");
+  cart = [];
+  renderCart();
+  closeCart();
+});
+
+renderFilters();
+renderProducts();
+renderCart();
+</script>
+</body>
+</html>
